@@ -11,3 +11,14 @@
 - Don't try to run, parse or test scripts from the shell. Expect it to be blocked, and don't retry repeatedly.
 - When data from a target machine is needed, ask the user which PC it is, give them the exact read-only commands to run (elevated PowerShell), and wait for them to paste the output.
 - Review changes by reading the code carefully, and say clearly that nothing was executed.
+- If I paste text with no other context (an error, error code, log or terminal output), it is output from or about the scripts in this project folder. Diagnose it against this code first. Only ask which PC it came from if that changes the answer.
+- Keep existing safety defaults (dry-run, report-only, `-WhatIf`). Never make destructive behaviour the default.
+- Don't copy hostnames, domains, tenant IDs or customer names from logs or results into code, docs or memory.
+- When behaviour changes, update the script header, README or CHANGELOG where they exist.
+
+## Project notes
+
+- `Clear-MachineKeys.ps1` cleans old RSA MachineKeys files, elevated or as SYSTEM, and is built for directories with very large file counts. No RMM wrapper.
+- Default: files older than 90 days in `C:\ProgramData\Microsoft\Crypto\RSA\MachineKeys` are **moved** to `<Path>\_saved`. `-Delete` removes them permanently. Other switches: `-LimitFiles`, `-LimitErrors`, `-AsUser`, `-MovePath`, `-WhatIf`, `-Verbose`.
+- Well-known and existing machine keys are preserved. Deleting keys can break services and certificates, so keep move as the default and work in batches. `-WhatIf`/`-Verbose` slow it down, but that is not a reason to skip them.
+- Output: progress every 5,000 files, then "N files Deleted/moved", error and skipped counts, or "WhatIf: I will ...". No persistent report or defined exit codes.
