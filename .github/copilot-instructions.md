@@ -16,6 +16,14 @@
 - Don't copy hostnames, domains, tenant IDs or customer names from logs or results into code, docs or memory.
 - When behaviour changes, update the script header, README or CHANGELOG where they exist.
 
+## Script output identification
+
+- When creating or modifying a script that produces output, put its name and explicit version at the top of human-readable output, before diagnostic results or actions. Apply this to PowerShell, batch (`.bat`/`.cmd`) and copy-paste one-line commands.
+- Increment the script/command version as changes are made, following its existing version scheme (start at `1.0.0` if absent). Keep the displayed version, script header/version metadata and equivalent batch/one-line copies in sync.
+- Diagnostic output must also identify the PC executing the command in the opening header. Resolve it at runtime (`$env:COMPUTERNAME` in PowerShell, `%COMPUTERNAME%` in batch, or the platform equivalent); do not hard-code a real hostname. Distinguish the executing PC from any remote target being queried.
+- Preserve intentional silent/quiet modes, exit codes, pipeline objects and machine-readable/RMM output contracts. Use the existing diagnostic/log channel or supported metadata fields rather than inserting a banner into structured data.
+- When diagnosing pasted results, compare their reported version with the current script/command version; flag stale or missing versions rather than assuming the latest code was run.
+
 ## Project notes
 
 - `Clear-MachineKeys.ps1` cleans old RSA MachineKeys files, elevated or as SYSTEM, and is built for directories with very large file counts. No RMM wrapper.
