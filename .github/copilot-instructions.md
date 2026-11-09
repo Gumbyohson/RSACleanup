@@ -10,6 +10,7 @@
 - Read and edit files with the editor tools (view, grep, edit), not PowerShell.
 - Don't try to run, parse or test scripts from the shell. Expect it to be blocked, and don't retry repeatedly.
 - When data from a target machine is needed, ask the user which PC it is, give them the exact read-only commands to run (elevated PowerShell), and wait for them to paste the output.
+- When giving a `.ps1` file to run on a PC, give the command as `powershell.exe -NoProfile -ExecutionPolicy Bypass -File "c:\temp\file.ps1"`. Most target machines block script execution by policy and the user typically runs from CMD, not PowerShell. This applies only to `.ps1` files run from the PC, not to inline PowerShell commands.
 - Review changes by reading the code carefully, and say clearly that nothing was executed.
 - If I paste text with no other context (an error, error code, log or terminal output), it is output from or about the scripts in this project folder. Diagnose it against this code first. Only ask which PC it came from if that changes the answer.
 - Keep existing safety defaults (dry-run, report-only, `-WhatIf`). Never make destructive behaviour the default.
